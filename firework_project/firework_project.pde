@@ -12,6 +12,7 @@ int height = 800;
 float startFireworkX = width/2.3;
 float startFireworkY = height - 150;
 float radianX = 1;
+float i = 0;
 
 
 // These variables are needed to display the humans
@@ -49,20 +50,46 @@ male_pink = loadImage("male_pink.png");
 }
 
 void draw(){
-  float speed = frameCount*9;
-  float left1 = frameCount*4;
-  float left2 = frameCount*4.5;
-  float left3 = frameCount*6;
-  float right1 = frameCount*4;
-  float right2 = frameCount*4.5;
-  float right3 = frameCount*6;
+  float speed = frameCount*3;
+  float side1 = frameCount*1;
+  float side2 = frameCount*2.5;
+  float side3 = frameCount*1.25;
+  float rotationSpeed = frameCount*0.09;
   background(179, 217, 255);
-  image(female_pink, startFireworkX-left1, startFireworkY-speed);
-  image(female_blue, startFireworkX-left2, startFireworkY-speed);
-  image(female_blue_green, startFireworkX-left3, startFireworkY-speed);
-  image(female_yellow, startFireworkX, startFireworkY-speed);
-  image(male_blue_light, startFireworkX+right3, startFireworkY-speed);
-  image(male_green, startFireworkX+right1, startFireworkY-speed);
-  image(male_pink, startFireworkX+right2, startFireworkY-speed);
+  pushMatrix();
+  translate(startFireworkX-side1, startFireworkY-speed);
+  rotate(rotationSpeed);
+  image(female_pink, 0, 0);
+  popMatrix();
+  pushMatrix();
+  translate(startFireworkX-side2, startFireworkY-speed);
+  rotate(rotationSpeed);
+  image(female_blue, 0, 0);
+  popMatrix();
+  pushMatrix();
+  translate(startFireworkX-side3, startFireworkY-speed);
+  rotate(rotationSpeed);
+  image(female_blue_green, 0, 0);
+  popMatrix();
+  pushMatrix();
+  translate(startFireworkX+side3, startFireworkY-speed);
+  rotate(rotationSpeed);
+  image(male_blue_light, 0, 0);
+  popMatrix();
+  pushMatrix();
+  translate(startFireworkX+side1, startFireworkY-speed);
+  rotate(rotationSpeed);
+  image(male_green, 0, 0);
+  popMatrix();
+  pushMatrix();
+  translate(startFireworkX+side2, startFireworkY-speed);
+  rotate(rotationSpeed);
+  image(male_pink, 0, 0);
+  popMatrix();
+  pushMatrix();
+  translate(startFireworkX, startFireworkY-speed);
+  rotate(rotationSpeed);
+  image(female_yellow, 0, 0);
+  popMatrix();
 }
     
