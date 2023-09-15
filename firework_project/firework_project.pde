@@ -91,6 +91,7 @@ images[5] = male_green;
 images[6] = male_pink;
 fillImageArray();
 fillRotationArray();
+numberFireworkObjects = peopleCounterData[5][3];
 }
 
 void draw(){
