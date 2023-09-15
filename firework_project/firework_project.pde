@@ -11,7 +11,7 @@ int[][] peopleCounterData = new int[rows][cols];
     - rotationSpeed sets the speed of the rotation
 */
 
-int numberFireworkObjects = 5;
+int numberFireworkObjects = 10;
 float speed = 3;
 float rotationSpeed = 0.09;
 
@@ -31,10 +31,6 @@ PImage male_green;
 PImage male_pink;
 
 // These variables are needed for the firework
-// These variables determine the rotation
-float side1 = 1;
-float side2 = 2;
-float side3 = 1.25;
 
 // This is needed since otherwise images take width and height of themselves
 int width = 800;
