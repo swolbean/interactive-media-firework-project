@@ -1,3 +1,10 @@
+// This initializes the variables needed to load the data into an 2-dimensional-array
+Table peopleCounterDataEif;
+int cols = 4;
+int rows = 832;
+int[][] peopleCounterData = new int[rows][cols];
+
+
 /* These are the changeable parameters of the firework
     - numberFireworkObjects sets the number of objects within the firework
     - speed sets the speed in which the objects move into the y-direction
@@ -9,28 +16,10 @@ float speed = 3;
 float rotationSpeed = 0.09;
 
 
-// This initializes the variables needed to load the data into an 2-dimensional-array
-Table peopleCounterDataEif;
-int cols = 4;
-int rows = 832;
-int[][] peopleCounterData = new int[rows][cols];
 PImage[] images = new PImage[7];
 PImage[] randomImages = new PImage[numberFireworkObjects];
 float[] rotationDirection = new float[7];
 float[] randomRotationDirection = new float[numberFireworkObjects];
-
-float side1 = 1;
-float side2 = 2.5;
-float side3 = 1.25;
-
-// This is needed since otherwise images take width and height of themselves
-int width = 800;
-int height = 800;
-
-// This variables are needed for the firework
-float startFireworkX = width/2.3;
-float startFireworkY = height - 150;
-
 
 // These variables are needed to display the humans
 PImage female_pink;
@@ -40,6 +29,20 @@ PImage female_yellow;
 PImage male_blue_light;
 PImage male_green;
 PImage male_pink;
+
+// These variables are needed for the firework
+// These variables determine the rotation
+float side1 = 1;
+float side2 = 2.5;
+float side3 = 1.25;
+
+// This is needed since otherwise images take width and height of themselves
+int width = 800;
+int height = 800;
+
+// This variables are needed for the starting position of the firework
+float startFireworkX = width/2.3;
+float startFireworkY = height - 150;
 
 
 // This function loops over the peopleCounterDataEif data to write the data into an array
