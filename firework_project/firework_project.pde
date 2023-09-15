@@ -115,8 +115,3 @@ void fireworkMovement(){
   image(randomImages[i], 0, 0);
   popMatrix();
 }}
-
-  
-//// number of objects in firework can be determined
-//// todo: put rotationdirections in array and must be also able to work in the loop
-    
