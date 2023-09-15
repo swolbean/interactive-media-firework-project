@@ -18,7 +18,7 @@ float rotationSpeed = 0.09;
 
 PImage[] images = new PImage[7];
 PImage[] randomImages = new PImage[numberFireworkObjects];
-float[] rotationDirection = new float[7];
+float[] rotationDirection = new float[numberFireworkObjects];
 float[] randomRotationDirection = new float[numberFireworkObjects];
 
 // These variables are needed to display the humans
@@ -33,7 +33,7 @@ PImage male_pink;
 // These variables are needed for the firework
 // These variables determine the rotation
 float side1 = 1;
-float side2 = 2.5;
+float side2 = 2;
 float side3 = 1.25;
 
 // This is needed since otherwise images take width and height of themselves
@@ -62,8 +62,12 @@ for (int i = 0; i < numberFireworkObjects; i++) {
   }
 }
 
-// This function creates random indexes within the length of the rotationDirection array to randomly select rotations and put them into the randomRotationDirection array
+
+// This function creates randomly created rotation directions
 void fillRotationArray() {
+for (int j = 0; j < numberFireworkObjects; j++) {
+    rotationDirection[j] = random(-3,3);
+  }
 for (int i = 0; i < numberFireworkObjects; i++) {
     int rand = (int)random(rotationDirection.length);
     randomRotationDirection[i] = rotationDirection[rand];
@@ -90,13 +94,6 @@ images[4] = male_blue_light;
 images[5] = male_green;
 images[6] = male_pink;
 fillImageArray();
-rotationDirection[0] = -side1;
-rotationDirection[1] = -side2;
-rotationDirection[2] = -side3;
-rotationDirection[3] = 0;
-rotationDirection[4] = +side3;
-rotationDirection[5] = +side1;
-rotationDirection[6] = +side2;
 fillRotationArray();
 }
 
