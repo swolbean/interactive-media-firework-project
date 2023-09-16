@@ -1,3 +1,6 @@
+// This imports the controlP5 library (needed for buttons etc.)
+import controlP5.*;
+ControlP5 controlP5;
 // This initializes the variables needed to load the data into an 2-dimensional-array
 Table peopleCounterDataEif;
 int cols = 4;
@@ -71,6 +74,7 @@ for (int i = 0; i < numberFireworkObjects; i++) {
 }
 
 void setup() {
+background(255);
 peopleCounterDataEif = loadTable("CB11_02_Broadway_East_In_data.csv");
 fillDataArray();
 size(800, 800);
@@ -92,6 +96,8 @@ images[6] = male_pink;
 fillImageArray();
 fillRotationArray();
 numberFireworkObjects = peopleCounterData[5][3];
+controlP5 = new ControlP5(this);
+h = controlP5.addButton("Music on / off",1,10,10,70,20);
 }
 
 void draw(){
