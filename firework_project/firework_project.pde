@@ -97,7 +97,7 @@ fillImageArray();
 fillRotationArray();
 numberFireworkObjects = peopleCounterData[5][3];
 controlP5 = new ControlP5(this);
-h = controlP5.addButton("Music on / off",1,10,10,70,20);
+controlP5.addButton("Music on / off",1,10,10,70,20);
 }
 
 void draw(){
