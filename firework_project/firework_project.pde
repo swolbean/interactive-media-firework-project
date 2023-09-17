@@ -8,10 +8,10 @@ Table peopleCounterDataEif;
 int cols = 4;
 int rows = 832;
 // These variables are needed for the firework
-int numberFireworkObjects = 10; // sets the number of objects in the firework
+int numberFireworkObjects = 29; //sets the length of the arrays (must be max number of persons in Excel)
 float speed = 3; // sets the speed in which the objects move into the y-direction
 float rotationSpeed = 0.09; // sets the rotation speed of the firework objects
-int index = 29; //sets the length of the arrays (must be max number of persons in Excel)
+int index = 29; // sets the index of the row of which the number of objects shall be displayed
 // This is needed since otherwise images take width and height of themselves
 int width = 800;
 int height = 800;
