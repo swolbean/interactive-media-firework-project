@@ -37,6 +37,7 @@ PImage male_green;
 PImage male_pink;
 
 
+
 // This function loops over the peopleCounterDataEif data to write the data into an 2d-array
 void fillDataArray() {
 for (int i = 0; i < rows; i++) {
@@ -76,7 +77,6 @@ void fireworkMovement(){
 
 
 void setup() {
-background(255);
 peopleCounterDataEif = loadTable("CB11_02_Broadway_East_In_data.csv");
 fillDataArray();
 size(800, 800);
