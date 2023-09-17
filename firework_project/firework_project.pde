@@ -11,7 +11,7 @@ int rows = 832;
 int numberFireworkObjects = 10; // sets the number of objects in the firework
 float speed = 3; // sets the speed in which the objects move into the y-direction
 float rotationSpeed = 0.09; // sets the rotation speed of the firework objects
-int index = 3;
+int index = 29; //sets the length of the arrays (must be max number of persons in Excel)
 // This is needed since otherwise images take width and height of themselves
 int width = 800;
 int height = 800;
@@ -98,6 +98,8 @@ images[6] = male_pink;
 fillArrays();
 controlP5 = new ControlP5(this);
 controlP5.addButton("Music on / off",1,10,10,70,20);
+numberFireworkObjects = peopleCounterData[index][3];
+print(numberFireworkObjects);
 }
 
 
