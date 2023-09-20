@@ -1,6 +1,11 @@
 // This imports the controlP5 library (needed for buttons etc.)
 import controlP5.*;
+import beads.*;
+
 ControlP5 controlP5;
+
+AudioContext ac;
+SamplePlayer player;
 
 
 // These variables are needed to load the data
@@ -11,13 +16,14 @@ int rows = 832;
 int numberFireworkObjects = 29; //sets the length of the arrays (must be max number of persons in Excel)
 float speed = 3; // sets the speed in which the objects move into the y-direction
 float rotationSpeed = 0.09; // sets the rotation speed of the firework objects
-int index = 29; // sets the index of the row of which the number of objects shall be displayed
+int index = 29; // sets the index of the row of which the number of objects shall be displayed // sliders
 // This is needed since otherwise images take width and height of themselves
 int width = 800;
 int height = 800;
 // This variables are needed for the starting position of the firework
 float startFireworkX = width/2.3;
 float startFireworkY = height - 150;
+
 
 
 int[][] peopleCounterData = new int[rows][cols];
@@ -75,6 +81,13 @@ void fireworkMovement(){
 }
 }
 
+void sound() {
+  String audioFileName = "[get audio file of a boom]";
+  Sample sample = SampleManager.sample(audioFileName);
+  player = new SamplePlayer(ac, sample);
+  player.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+  ac.start();
+}
 
 void setup() {
 peopleCounterDataEif = loadTable("CB11_02_Broadway_East_In_data.csv");
@@ -96,9 +109,11 @@ images[4] = male_blue_light;
 images[5] = male_green;
 images[6] = male_pink;
 fillArrays();
+ac = new AudioContext();
+sound();
 controlP5 = new ControlP5(this);
 controlP5.addButton("Music on / off",1,10,10,70,20);
-numberFireworkObjects = peopleCounterData[index][3];
+numberFireworkObjects = peopleCounterData[index][3]; //takes row 3
 print(numberFireworkObjects);
 }
 
