@@ -97,6 +97,24 @@ void backgroundMusic(){
    ac.start();
 }
 
+void toggleMusic(boolean value) {
+  if (value) {
+    // Music should be turned on
+    if (!isMusicPlaying) {
+      // Start playing the background music
+      ac.start();
+      isMusicPlaying = true;
+    }
+  } else {
+    // Music should be turned off
+    if (isMusicPlaying) {
+      // Stop playing the background music
+      ac.stop();
+      isMusicPlaying = false;
+    }
+  }
+}
+
 void mousePressed() {
   startFireworkX = mouseX;
   startFireworkY = mouseY;
@@ -124,7 +142,11 @@ void setup() {
   images[6] = male_pink;
   fillArrays();
   controlP5 = new ControlP5(this);
-  controlP5.addButton("Music on / off",1,10,10,70,20);
+  controlP5.addToggle("toggleMusic")
+    .setCaptionLabel("Music On/Off")
+    .setValue(isMusicPlaying ? 1 : 0) 
+    .setPosition(10, 10)
+    .setSize(70, 20);
   numberFireworkObjects = peopleCounterData[index][3];
   print(numberFireworkObjects);
   controlP5 = new ControlP5(this); //creating slider to choose start time
@@ -155,7 +177,6 @@ void draw(){
   int day = peopleCounterData[currentIndex][0];
   int hour = peopleCounterData[currentIndex][1];
   int minute = peopleCounterData[currentIndex][2];
-  
 }
 
 void TimeSlider(float value) {
