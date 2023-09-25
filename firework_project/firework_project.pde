@@ -1,17 +1,16 @@
 // This imports the controlP5 library (needed for buttons etc.)
 import controlP5.*;
 import beads.*;
+import beads.AudioContext;
+import beads.Gain;
+import beads.Sample;
+import beads.SampleManager;
+import beads.SamplePlayer;
+import java.util.Arrays;
 
 ControlP5 controlP5;
 AudioContext ac;
 Gain volumeControl;
-
-// These variables are needed for background volume control
-float volume = 0.5; 
-float volumeStep = 0.05; 
-
-// These variables are needed to toggle background volume control
-boolean isMusicPlaying = false;
 
 // These variables are needed to load the data
 Table peopleCounterDataEif;
@@ -48,71 +47,109 @@ PImage male_green;
 PImage male_pink;
 
 
+// These variables are needed for background music
+String bgAudioFileName = "C:/Users/baust/OneDrive/Desktop/school/2023/interactive media/interactive-media-firework-project/firework_project/sounds/624363__theoctopus559__background-music-loop-drums.wav";
+Sample backgroundMusicSample;
+SamplePlayer backgroundAudioPlayer;
+float volume = 0.5; 
+float volumeStep = 0.05; 
+boolean isMusicPlaying = false;
+
+// These variables are needed for explosion sfx
+String exAudioFileName = "C:/Users/baust/OneDrive/Desktop/school/2023/interactive media/interactive-media-firework-project/firework_project/sounds/587198__derplayer__explosion_big_03.mp3";
+Sample explosionSfxSample;
+SamplePlayer explosionSfxPlayer;
+boolean hasExploded;
+boolean isNewFirework = true;
+float peakHeightY = 300; 
+
 
 // This function loops over the peopleCounterDataEif data to write the data into an 2d-array
 void fillDataArray() {
-for (int i = 0; i < rows; i++) {
-  for (int j = 0; j < cols; j++) {
-    peopleCounterData[i][j] = peopleCounterDataEif.getInt(i, j);
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      peopleCounterData[i][j] = peopleCounterDataEif.getInt(i, j);
+    }
   }
 }
-}
-
 
 // This function fills the randomImages, rotatioDirection and randomRotationDirection arrays
 void fillArrays() {
-for (int i = 0; i < numberFireworkObjects; i++) {
-    int rand = (int)random(images.length);
-    randomImages[i] = images[rand];
+  for (int i = 0; i < numberFireworkObjects; i++) {
+      int rand = (int)random(images.length);
+      randomImages[i] = images[rand];
   }
-for (int j = 0; j < numberFireworkObjects; j++) {
-    rotationDirection[j] = random(-3,3);
+  for (int j = 0; j < numberFireworkObjects; j++) {
+      rotationDirection[j] = random(-3,3);
   }
-for (int k = 0; k < numberFireworkObjects; k++) {
-    int rand = (int)random(rotationDirection.length);
-    randomRotationDirection[k] = rotationDirection[rand];
+  for (int k = 0; k < numberFireworkObjects; k++) {
+      int rand = (int)random(rotationDirection.length);
+      randomRotationDirection[k] = rotationDirection[rand];
   }
 }
-
 
 // This function creates the rotation and movement of the randomly selected firework elements
 void fireworkMovement(){
   for (int i = 0; i < numberFireworkObjects; i = i+1) {
     pushMatrix();
+    float currentY = startFireworkY - (speed * frameCount);
     translate(startFireworkX+(frameCount*randomRotationDirection[i]), startFireworkY-(speed*frameCount));
     rotate((rotationSpeed*frameCount));
     image(randomImages[i], 0, 0);
     popMatrix();
+    
+    if (currentY >= startFireworkY) {
+      isNewFirework = true; 
+    }
+    if (isNewFirework && currentY <= peakHeightY) {
+      if (!hasExploded) {
+        ac.out.addInput(explosionSfxPlayer); 
+        explosionSfxPlayer.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS); 
+        explosionSfxPlayer.start();
+        hasExploded = true; 
+      }
+      isNewFirework = false; 
+    }
+    
+    currentY = startFireworkY - (speed * frameCount);
   }
 }
 
-void backgroundMusic(){
-   String audioFileName = "C:/Users/baust/OneDrive/Desktop/school/2023/interactive media/interactive-media-firework-project/firework_project/sounds/624363__theoctopus559__background-music-loop-drums.wav";
-   Sample sample = SampleManager.sample(audioFileName);
-   SamplePlayer backgroundAudioPlayer = new SamplePlayer(ac, sample);
-   backgroundAudioPlayer.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);  
-   volumeControl = new Gain(ac, 1, volume);
-   volumeControl.addInput(backgroundAudioPlayer);
-   ac.out.addInput(volumeControl);
-   ac.start();
+void resetExplosion(){
+  hasExploded = false;
 }
 
 void toggleMusic(boolean value) {
   if (value) {
-    // Music should be turned on
-    if (!isMusicPlaying) {
-      // Start playing the background music
-      ac.start();
-      isMusicPlaying = true;
-    }
+    // Start playing the background music
+    backgroundAudioPlayer = new SamplePlayer(ac, backgroundMusicSample);
+    backgroundAudioPlayer.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+    volumeControl.addInput(backgroundAudioPlayer);
+    backgroundAudioPlayer.start();
+    isMusicPlaying = true;
   } else {
-    // Music should be turned off
-    if (isMusicPlaying) {
-      // Stop playing the background music
-      ac.stop();
-      isMusicPlaying = false;
+    // Stop the background music
+    if (backgroundAudioPlayer != null) {
+      backgroundAudioPlayer.kill();
     }
+    isMusicPlaying = false;
   }
+}
+
+void TimeSlider(float value) {
+  // Update currentIndex based on the slider's value
+  currentIndex = int(value);
+  //to display the date and time of the data start point
+  Textlabel timeLabel = (Textlabel)controlP5.get("TimeLabel");
+  timeLabel.setText("Date & Time: " + getDateAndTime(currentIndex));
+}
+
+String getDateAndTime(int index) {
+  // Get the date and time based on the selected index the EIF data
+  int day = peopleCounterData[index][0];
+  int hour = peopleCounterData[index][1];
+  int minute = peopleCounterData[index][2];
+  return "Data: " + day + "th September " + hour + "h " + minute + "min";
 }
 
 void mousePressed() {
@@ -163,10 +200,18 @@ void setup() {
     .setFont(createFont("Arial", 12));
   
   ac = new AudioContext();
-  backgroundMusic();
+  backgroundMusicSample = SampleManager.sample(bgAudioFileName);
+  backgroundAudioPlayer = new SamplePlayer(ac, backgroundMusicSample);
+  backgroundAudioPlayer.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);  
+  volumeControl = new Gain(ac, 1, volume);
+  volumeControl.addInput(backgroundAudioPlayer);
+  ac.out.addInput(volumeControl);
+  ac.start();
   
   isMusicPlaying = ac.isRunning();
   
+  explosionSfxSample = SampleManager.sample(exAudioFileName);
+  explosionSfxPlayer = new SamplePlayer(ac, explosionSfxSample);
 }
 
 void draw(){
@@ -178,21 +223,6 @@ void draw(){
   int hour = peopleCounterData[currentIndex][1];
   int minute = peopleCounterData[currentIndex][2];
 }
-
-void TimeSlider(float value) {
-  // Update currentIndex based on the slider's value
-  currentIndex = int(value);
-  //to display the date and time of the data start point
-  Textlabel timeLabel = (Textlabel)controlP5.get("TimeLabel");
-  timeLabel.setText("Date & Time: " + getDateAndTime(currentIndex));
-}
-String getDateAndTime(int index) {
-  // Get the date and time based on the selected index the EIF data
-  int day = peopleCounterData[index][0];
-  int hour = peopleCounterData[index][1];
-  int minute = peopleCounterData[index][2];
- return "Data: " + day + "th September " + hour + "h " + minute + "min";
-  }
   
 void keyPressed() {
   if (keyCode == UP) {
