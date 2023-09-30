@@ -19,12 +19,11 @@ int rows = 832;
 int numberFireworkObjects = 29; // sets the length of the arrays (must be max number of persons in Excel)
 float speed = 3; // sets the speed at which the objects move in the y-direction
 float rotationSpeed = 0.09; // sets the rotation speed of the firework objects
-int index = 29; // sets the index of the row from which the number of objects shall be displayed
-// This is needed since otherwise images take the width and height of themselves
+int index = 29;
 int currentIndex = 0; // keeps track of the current data point
+// This is needed since otherwise images take the width and height of themselves
 int width = 800;
 int height = 800;
-float time = frameCount % 12;
 // This variables are needed for the starting position of the firework
 float startFireworkX = width / 2.3;
 float startFireworkY = height - 150;
